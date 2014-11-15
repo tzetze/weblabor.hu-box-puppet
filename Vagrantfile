@@ -1,13 +1,14 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "hashicorp/wheezy64"
-  config.vm.network "private_network", :ip => "192.168.3.1"
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.network "private_network", :ip => "192.168.3.10"
 
   # config.vm.synced_folder "../data", "/vagrant_data"
 
   config.vm.provision "puppet" do |puppet|
-    puppet.manifests_path = "manifests"
+    puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
     puppet.manifest_file  = "default.pp"
   end
 end

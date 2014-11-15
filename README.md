@@ -20,3 +20,8 @@ Sima felhasználóként a Vagrantfile könyvtárában:
 ```shell
 vagrant up
 ```
+
+hosts fájlba (tetszőleges domain névvel):
+```shell
+192.168.3.10 	weblabor.dev
+```

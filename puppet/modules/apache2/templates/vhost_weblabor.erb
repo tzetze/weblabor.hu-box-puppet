@@ -1,0 +1,100 @@
+<VirtualHost *:80>
+<% primary_hosts.each_with_index do |primary_host, index| -%>
+<% if index == 0 -%>
+    ServerName <%= primary_host %>
+<% else -%>
+    ServerAlias <%= primary_host %>
+<% end -%>
+<% end -%>
+
+<% if webroot_dir -%>
+    DocumentRoot <%= vhost_root %>/www/<%= webroot_dir %>
+<% else -%>
+    DocumentRoot <%= vhost_root %>/www
+<% end -%>
+
+    php_admin_value open_basedir <%= vhost_root %>:/usr/local/lib/php/
+    php_admin_value error_log <%= vhost_root %>/log/php_errors.log
+    php_admin_value upload_tmp_dir <%= vhost_root %>/upload_tmp
+
+    CustomLog /var/log/apache2/<%= name %>-custom.log combined
+    CustomLog /var/log/apache2/Apache-access.log allinone
+    ErrorLog /var/log/apache2/Apache-error.log
+
+    <Directory ~ "\.svn">
+        Order allow,deny
+        Deny from all
+    </Directory>
+
+    ServerAdmin hostmaster@weblabor.hu
+
+    ProxyRequests off
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+    ProxyPass /mailman https://bors.hoszting.com/mailman
+    ProxyPassReverse /mailman https://bors.hoszting.com/mailman
+</VirtualHost>
+
+<% if redirect_hosts.count > 0 then %>
+<VirtualHost *:80>
+<% redirect_hosts.each_with_index do |redirect_host, index| -%>
+<% if index == 0 -%>
+    ServerName <%= redirect_host %>
+<% else -%>
+    ServerAlias <%= redirect_host %>
+<% end -%>
+<% end -%>
+
+    Redirect permanent / http://<%= primary_hosts[0] %>/
+
+    ServerAdmin hostmaster@weblabor.hu
+</VirtualHost>
+<% end %>
+
+<VirtualHost *:443>
+<% primary_hosts.each_with_index do |primary_host, index| -%>
+<% if index == 0 -%>
+    ServerName <%= primary_host %>
+<% else -%>
+    ServerAlias <%= primary_host %>
+<% end -%>
+<% end -%>
+
+<% if webroot_dir -%>
+    DocumentRoot <%= vhost_root %>/www/<%= webroot_dir %>
+<% else -%>
+    DocumentRoot <%= vhost_root %>/www
+<% end -%>
+
+    php_admin_value open_basedir <%= vhost_root %>:/usr/local/lib/php/
+    php_admin_value error_log <%= vhost_root %>/log/php_errors.log
+    php_admin_value upload_tmp <%= vhost_root %>/upload_tmp
+
+    CustomLog /var/log/apache2/<%= name %>-custom.log combined
+    CustomLog /var/log/apache2/Apache-access.log allinone
+    ErrorLog /var/log/apache2/Apache-error.log
+
+    <Directory ~ "\.svn">
+        Order allow,deny
+        Deny from all
+    </Directory>
+
+    ServerAdmin hostmaster@weblabor.hu
+
+    ProxyRequests off
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+    ProxyPass /mailman https://bors.hoszting.com/mailman
+    ProxyPassReverse /mailman https://bors.hoszting.com/mailman
+
+    SSLEngine on
+    SSLProxyEngine on
+    SSLCertificateFile /etc/apache2/ssl/weblabor.hu.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/weblabor.hu.key
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
+    SetenvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown downgrade-1.0 force-response-1.0
+</VirtualHost>
