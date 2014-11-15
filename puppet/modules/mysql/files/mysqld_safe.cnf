@@ -1,0 +1,3 @@
+[mysqld_safe]
+socket = /var/run/mysqld/mysqld.sock
+nice = 0
