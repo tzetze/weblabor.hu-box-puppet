@@ -25,7 +25,7 @@ class apache2 {
         before => Service["apache2"],
     }
 
-    apache2::module { ["rewrite", "proxy", "proxy_http", "headers"]: 
+    apache2::module { ["rewrite", "proxy", "proxy_http", "headers", "dav"]: 
         ensure => 'present'
     }
 
