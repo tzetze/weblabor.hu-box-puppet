@@ -2,17 +2,19 @@ weblabor.hu-box-puppet
 ======================
 
 weblabor.hu vagrant box puppet-el felhúzva. Egyben minden, amit igény
-esetén lehet darabolni. A weblabor.hu repo (jelenleg svn) a weblabor.hu
-könyvtárba húzandó le.
+esetén lehet darabolni. 
 
-INSTALL
-=======
+Hozzávalók beszerzése (Vagrant, Puppet):
 
-Vagrantot innen: https://www.vagrantup.com/downloads.html
+https://www.vagrantup.com/downloads.html
 
 ```shell
 sudo apt-get install puppet
 ```
+
+A weblabor.hu repo (jelenleg svn) a weblabor.hu könyvtárba húzandó le.
+
+Végül:
 
 Sima felhasználóként a Vagrantfile könyvtárában:
 ```shell
