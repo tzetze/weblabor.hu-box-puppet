@@ -1,3 +1,8 @@
+stage { [pre, post]: }
+Stage[pre] -> Stage[main] -> Stage[post]
+
+class { 'apt-update::update': stage => pre }
+
 include apache2
 include php5
 include mysql
