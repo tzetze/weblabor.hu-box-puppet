@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-<% primary_hosts.each_with_index do |primary_host, index| -%>
+<% @primary_hosts.each_with_index do |primary_host, index| -%>
 <% if index == 0 -%>
     ServerName <%= primary_host %>
 <% else -%>
@@ -7,17 +7,17 @@
 <% end -%>
 <% end -%>
 
-<% if webroot_dir -%>
-    DocumentRoot <%= vhost_root %>/www/<%= webroot_dir %>
+<% if @webroot_dir -%>
+    DocumentRoot <%= @vhost_root %>/www/<%= @webroot_dir %>
 <% else -%>
-    DocumentRoot <%= vhost_root %>/www
+    DocumentRoot <%= @vhost_root %>/www
 <% end -%>
 
-    php_admin_value open_basedir <%= vhost_root %>:/usr/local/lib/php/
-    php_admin_value error_log <%= vhost_root %>/log/php_errors.log
-    php_admin_value upload_tmp_dir <%= vhost_root %>/upload_tmp
+    php_admin_value open_basedir <%= @vhost_root %>:/usr/local/lib/php/
+    php_admin_value error_log <%= @vhost_root %>/log/php_errors.log
+    php_admin_value upload_tmp_dir <%= @vhost_root %>/upload_tmp
 
-    CustomLog /var/log/apache2/<%= name %>-custom.log combined
+    CustomLog /var/log/apache2/<%= @name %>-custom.log combined
     CustomLog /var/log/apache2/Apache-access.log allinone
     ErrorLog /var/log/apache2/Apache-error.log
 
@@ -37,9 +37,9 @@
     ProxyPassReverse /mailman https://bors.hoszting.com/mailman
 </VirtualHost>
 
-<% if redirect_hosts.count > 0 then %>
+<% if @redirect_hosts.count > 0 then %>
 <VirtualHost *:80>
-<% redirect_hosts.each_with_index do |redirect_host, index| -%>
+<% @redirect_hosts.each_with_index do |redirect_host, index| -%>
 <% if index == 0 -%>
     ServerName <%= redirect_host %>
 <% else -%>
@@ -47,14 +47,14 @@
 <% end -%>
 <% end -%>
 
-    Redirect permanent / http://<%= primary_hosts[0] %>/
+    Redirect permanent / http://<%= @primary_hosts[0] %>/
 
     ServerAdmin hostmaster@weblabor.hu
 </VirtualHost>
 <% end %>
 
 <VirtualHost *:443>
-<% primary_hosts.each_with_index do |primary_host, index| -%>
+<% @primary_hosts.each_with_index do |primary_host, index| -%>
 <% if index == 0 -%>
     ServerName <%= primary_host %>
 <% else -%>
@@ -62,17 +62,17 @@
 <% end -%>
 <% end -%>
 
-<% if webroot_dir -%>
-    DocumentRoot <%= vhost_root %>/www/<%= webroot_dir %>
+<% if @webroot_dir -%>
+    DocumentRoot <%= @vhost_root %>/www/<%= @webroot_dir %>
 <% else -%>
-    DocumentRoot <%= vhost_root %>/www
+    DocumentRoot <%=  @vhost_root %>/www
 <% end -%>
 
-    php_admin_value open_basedir <%= vhost_root %>:/usr/local/lib/php/
-    php_admin_value error_log <%= vhost_root %>/log/php_errors.log
-    php_admin_value upload_tmp <%= vhost_root %>/upload_tmp
+    php_admin_value open_basedir <%= @vhost_root %>:/usr/local/lib/php/
+    php_admin_value error_log <%= @vhost_root %>/log/php_errors.log
+    php_admin_value upload_tmp <%= @vhost_root %>/upload_tmp
 
-    CustomLog /var/log/apache2/<%= name %>-custom.log combined
+    CustomLog /var/log/apache2/<%= @name %>-custom.log combined
     CustomLog /var/log/apache2/Apache-access.log allinone
     ErrorLog /var/log/apache2/Apache-error.log
 

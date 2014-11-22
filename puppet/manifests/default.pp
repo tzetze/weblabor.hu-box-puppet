@@ -11,3 +11,5 @@ include subversion
 include trac
 include localization
 include tools
+include hosting
+include weblabor
