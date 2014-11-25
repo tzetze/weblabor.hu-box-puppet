@@ -29,6 +29,11 @@ class apache2 {
         ensure => 'present'
     }
 
+    apache2::vhost { "000-default":
+        ensure => 'absent',
+        webspace => '',
+    }
+
     file { "apache2-config-noindex":
         path => "/etc/apache2/conf-enabled/noindex",
         ensure => "file",

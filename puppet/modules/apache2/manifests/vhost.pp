@@ -17,8 +17,8 @@ define apache2::vhost(
     }
     $vhost_root            = "${hosting::root_dir}/${webspace}/${domain_subdir}"
     $vhost_id              = "${hosting::root_dir}/${webspace}/${name}"
-    $apache_available_file = "${apache2::available_dir}/${name}"
-    $apache_enabled_file   = "${apache2::enabled_dir}/${name}"
+    $apache_available_file = "${apache2::available_dir}/${name}.conf"
+    $apache_enabled_file   = "${apache2::enabled_dir}/${name}.conf"
 
     case $ensure {
         "present": {
